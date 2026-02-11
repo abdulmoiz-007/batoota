@@ -8,25 +8,20 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
 <style>
-
 :root{
  --bg1:#ffd6e7;
  --bg2:#ffeef6;
  --card:#ffffffcc;
  --yes:#ff3b7a;
 }
-
-*{box-sizing:border-box;}
-
+*{box-sizing:border-box;margin:0;padding:0;}
 body{
- margin:0;
  min-height:100vh;
  display:grid;
  place-items:center;
- background:radial-gradient(circle at top,var(--bg2),var(--bg1));
  font-family:system-ui,sans-serif;
+ background:radial-gradient(circle at top,var(--bg2),var(--bg1));
  overflow:hidden;
- padding:16px;
 }
 
 /* Floating hearts */
@@ -39,7 +34,6 @@ body::before{
  animation:float 12s linear infinite;
  pointer-events:none;
 }
-
 @keyframes float{
  from{transform:translateY(100vh);}
  to{transform:translateY(-120vh);}
@@ -59,24 +53,19 @@ body::before{
 .art{
  width:min(260px,80vw);
  display:block;
- margin-left:auto;
- margin-right:auto;
- margin-bottom:12px;
+ margin:0 auto 12px auto;
 }
 
 .fireworks{
  width:min(380px,90vw);
  display:block;
- margin-left:auto;
- margin-right:auto;
- margin-top:20px;
+ margin:20px auto 0 auto;
 }
 
 .heartbeat{
  animation:heartbeat 1.2s infinite;
  transform-origin:center;
 }
-
 @keyframes heartbeat{
  0%,100%{transform:scale(1);}
  50%{transform:scale(1.12);}
@@ -101,30 +90,16 @@ button{
 }
 
 #yesBtn{
- position:absolute;
- left:18%;
- top:50%;
- transform:translateY(-50%);
- background:var(--yes);
- color:white;
+ position:absolute; left:18%; top:50%; transform:translateY(-50%);
+ background:var(--yes); color:white;
 }
-
 #noBtn{
- position:absolute;
- left:62%;
- top:50%;
- transform:translateY(-50%);
+ position:absolute; left:62%; top:50%; transform:translateY(-50%);
  background:#e5e7eb;
 }
 
 .result{display:none;}
-
-.hint{
- margin-top:10px;
- font-size:14px;
- opacity:.8;
-}
-
+.hint{margin-top:10px;font-size:14px;opacity:.8;}
 </style>
 </head>
 
@@ -132,90 +107,67 @@ button{
 
 <canvas id="confettiCanvas"></canvas>
 
-<!-- MUSIC -->
 <audio id="bgMusic" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6f1cc0e94b.mp3" type="audio/mp3">
+ <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6f1cc0e94b.mp3" type="audio/mp3">
 </audio>
 
-<!-- Anniversary -->
+<!-- Anniversary Page -->
 <section class="card" id="anniversaryPage">
-
-<img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif"
-style="width:min(280px,80vw); border-radius:18px;"/>
-
+<img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" style="width:min(280px,80vw); border-radius:18px;"/>
 <h1>Happy 3 Month Anniversary ❤️</h1>
-
 <p>Looks like what we have is real… and honestly, I’m really grateful for it.</p>
-
-<p style="margin-top:18px; font-size:20px;">
-Just one more thing 😉
-</p>
-
+<p style="margin-top:18px; font-size:20px;">Just one more thing 😉</p>
 <button id="nextBtn">Next →</button>
-
 </section>
 
-<!-- Valentine -->
+<!-- Valentine Page -->
 <main class="card" id="valentinePage" style="display:none;">
-
 <svg class="art" viewBox="0 0 320 240">
 <defs>
-<linearGradient id="fur"><stop offset="0" stop-color="#f7c7a1"/><stop offset="1" stop-color="#f2a97b"/></linearGradient>
-<linearGradient id="heart"><stop offset="0" stop-color="#ff4d7d"/><stop offset="1" stop-color="#ff1f68"/></linearGradient>
+ <linearGradient id="fur"><stop offset="0" stop-color="#f7c7a1"/><stop offset="1" stop-color="#f2a97b"/></linearGradient>
+ <linearGradient id="heart"><stop offset="0" stop-color="#ff4d7d"/><stop offset="1" stop-color="#ff1f68"/></linearGradient>
 </defs>
 
-<path class="heartbeat"
-d="M250 50 C250 33 270 25 282 38 C294 25 314 33 314 50 C314 78 282 92 282 106 C282 92 250 78 250 50Z"
-fill="url(#heart)"/>
-
-<path d="M90 120 C90 70 140 40 190 60 C240 40 290 70 290 120 C290 180 240 210 190 210 C140 210 90 180 90 120Z"
-fill="url(#fur)"/>
-
+<path class="heartbeat" d="M250 50 C250 33 270 25 282 38 C294 25 314 33 314 50 C314 78 282 92 282 106 C282 92 250 78 250 50Z" fill="url(#heart)"/>
+<path d="M90 120 C90 70 140 40 190 60 C240 40 290 70 290 120 C290 180 240 210 190 210 C140 210 90 180 90 120Z" fill="url(#fur)"/>
 <circle cx="160" cy="130" r="8"/>
 <circle cx="220" cy="130" r="8"/>
-
 </svg>
 
 <h1>Rawan El Moghrabi will you be my valentine?</h1>
 
 <section class="button-zone" id="zone">
-<button id="yesBtn">Yes</button>
-<button id="noBtn">No</button>
+ <button id="yesBtn">Yes</button>
+ <button id="noBtn">No</button>
 </section>
 
 <div class="hint" id="hint">“No” exists only as a formality... </div>
 
 <section class="result" id="result">
 <h2>YAY! 🎉</h2>
-<img class="fireworks"
-src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"/>
+<img class="fireworks" src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"/>
 </section>
-
 </main>
 
 <script>
+const anniversaryPage=document.getElementById("anniversaryPage");
+const valentinePage=document.getElementById("valentinePage");
+const nextBtn=document.getElementById("nextBtn");
+const music=document.getElementById("bgMusic");
 
-/* Navigation + music */
-const music = document.getElementById("bgMusic");
-document.getElementById("nextBtn").onclick = ()=>{
- document.getElementById("anniversaryPage").style.display="none";
- document.getElementById("valentinePage").style.display="block";
-
+nextBtn.onclick=()=>{
+ anniversaryPage.style.display="none";
+ valentinePage.style.display="block";
  music.volume=0;
  music.play();
-
  let fade=setInterval(()=>{
-   if(music.volume<0.35) music.volume+=0.02;
-   else clearInterval(fade);
+   if(music.volume<0.35) music.volume+=0.02; else clearInterval(fade);
  },120);
 };
 
 /* Confetti */
-const confettiCanvas=document.getElementById("confettiCanvas");
-confettiCanvas.width=innerWidth;
-confettiCanvas.height=innerHeight;
-
-const confettiInstance=confetti.create(confettiCanvas,{resize:true,useWorker:true});
+const canvas=document.getElementById("confettiCanvas");
+const confettiInstance=confetti.create(canvas,{resize:true,useWorker:true});
 
 function fullConfetti(){
  confettiInstance({particleCount:250,spread:140,startVelocity:60});
@@ -228,58 +180,37 @@ const noBtn=document.getElementById("noBtn");
 const result=document.getElementById("result");
 const hint=document.getElementById("hint");
 
-let yesScale=1;
-let noClicks=0;
+let yesScale=1, noClicks=0;
+const teasing=["Are you sure? 😢","Really sure?? 🥺","I’ll be very sad... 😭","Okay but… last chance 😳"];
 
-const teasing=[
-"Are you sure? 😢",
-"Really sure?? 🥺",
-"I’ll be very sad... 😭",
-"Okay but… last chance 😳"
-];
-
-function growYes(){
- yesScale=Math.min(2.2,yesScale+.1);
- yesBtn.style.transform=`translateY(-50%) scale(${yesScale})`;
-}
+function growYes(){ yesScale=Math.min(2.2,yesScale+.1); yesBtn.style.transform=`translateY(-50%) scale(${yesScale})`; }
 
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 
 function moveNo(px,py){
  const z=zone.getBoundingClientRect();
  const b=noBtn.getBoundingClientRect();
-
  let dx=(b.left+b.width/2)-px;
  let dy=(b.top+b.height/2)-py;
  let mag=Math.hypot(dx,dy)||1;
-
  dx/=mag; dy/=mag;
-
  let newLeft=(b.left-z.left)+dx*140;
  let newTop=(b.top-z.top)+dy*140;
-
  newLeft=clamp(newLeft,10,z.width-b.width-10);
  newTop=clamp(newTop,10,z.height-b.height-10);
-
  noBtn.style.left=newLeft+"px";
  noBtn.style.top=newTop+"px";
- noBtn.style.transform="translateY(0)";
-
+ noBtn.style.transform="translateY(-50%)";
  growYes();
-
- if(noClicks<teasing.length){
-   hint.textContent=teasing[noClicks];
- }
+ if(noClicks<teasing.length){ hint.textContent=teasing[noClicks]; }
  noClicks++;
 }
 
 function randomMove(){
  const rect=zone.getBoundingClientRect();
  const margin=40;
-
  const x=rect.left+margin+Math.random()*(rect.width-margin*2);
  const y=rect.top+margin+Math.random()*(rect.height-margin*2);
-
  moveNo(x,y);
 }
 
@@ -298,8 +229,6 @@ yesBtn.onclick=()=>{
  result.style.display="block";
  fullConfetti();
 };
-
 </script>
-
 </body>
 </html>
