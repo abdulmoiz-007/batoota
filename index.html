@@ -13,7 +13,6 @@
   --bg2: #ffeef6;
   --card: #ffffffcc;
   --yes: #ff3b7a;
-  --yesHover: #ff1f68;
 }
 
 * { box-sizing: border-box; }
@@ -32,8 +31,6 @@ body {
 #confettiCanvas {
   position: fixed;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
   pointer-events: none;
   z-index: 9999;
 }
@@ -46,6 +43,23 @@ body {
   border-radius: 22px;
   text-align: center;
   box-shadow: 0 18px 60px rgba(0,0,0,.15);
+}
+
+.art {
+  width: min(260px, 80vw);
+  margin: 0 auto 10px;
+  display: block;
+  filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
+}
+
+.heartbeat {
+  animation: heartbeat 1.2s infinite;
+  transform-origin: center;
+}
+
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
 }
 
 .button-zone {
@@ -83,12 +97,23 @@ button {
   background: #e5e7eb;
 }
 
-.result { display:none; margin-top:20px; }
+.result {
+  display:none;
+  margin-top:20px;
+  text-align:center;
+}
 
-.hint { margin-top:10px; font-size:13px; opacity:.7; }
+.fireworks {
+  width:min(380px,90vw);
+  display:block;
+  margin:20px auto 0 auto;
+}
 
-.fireworks { width:min(380px,90vw); }
-
+.hint {
+  margin-top:10px;
+  font-size:13px;
+  opacity:.7;
+}
 </style>
 </head>
 
@@ -121,67 +146,98 @@ Just one more thing 😉
 <!-- Valentine Page -->
 <main class="card" id="valentinePage" style="display:none;">
 
-<h1>Nirali will you be my valentine?</h1>
+<!-- Bear SVG -->
+<svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+<linearGradient id="fur" x1="0" x2="1">
+<stop offset="0" stop-color="#f7c7a1"/>
+<stop offset="1" stop-color="#f2a97b"/>
+</linearGradient>
+
+<linearGradient id="heart" x1="0" x2="1">
+<stop offset="0" stop-color="#ff4d7d"/>
+<stop offset="1" stop-color="#ff1f68"/>
+</linearGradient>
+</defs>
+
+<!-- Animated Heart -->
+<path class="heartbeat"
+d="M250 50 C250 33 270 25 282 38
+C294 25 314 33 314 50
+C314 78 282 92 282 106
+C282 92 250 78 250 50Z"
+fill="url(#heart)"/>
+
+<path d="M90 120 C90 70 140 40 190 60
+C240 40 290 70 290 120
+C290 180 240 210 190 210
+C140 210 90 180 90 120Z"
+fill="url(#fur)"/>
+
+<path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
+<path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
+
+<circle cx="160" cy="130" r="8"/>
+<circle cx="220" cy="130" r="8"/>
+
+<path d="M190 144 C186 144 182 148 182 152
+C182 160 190 164 190 170
+C190 164 198 160 198 152
+C198 148 194 144 190 144Z"
+fill="#ff7aa2"/>
+</svg>
+
+<h1>Rawan El Moghrabi will you be my valentine?</h1>
 
 <section class="button-zone" id="zone">
 <button id="yesBtn">Yes</button>
 <button id="noBtn">No</button>
 </section>
 
-<div class="hint" id="hint">“No” seems a bit shy 😈</div>
+<div class="hint" id="hint">“No” here is only a formality </div>
 
 <section class="result" id="result">
 <h2>YAY! 🎉</h2>
-<img
-class="fireworks"
-src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
-/>
+<img class="fireworks"
+src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"/>
 </section>
 
 </main>
 
 <script>
-/* ---------- PAGE NAVIGATION ---------- */
-
+/* Page Navigation */
 const anniversaryPage = document.getElementById("anniversaryPage");
 const valentinePage = document.getElementById("valentinePage");
-const nextBtn = document.getElementById("nextBtn");
 
-nextBtn.addEventListener("click", () => {
+document.getElementById("nextBtn").onclick = () => {
   anniversaryPage.style.display = "none";
   valentinePage.style.display = "block";
-});
+};
 
-/* ---------- CONFETTI ---------- */
-
+/* Confetti */
 const confettiCanvas = document.getElementById("confettiCanvas");
 
-function resizeConfettiCanvas() {
+function resizeConfettiCanvas(){
   const dpr = Math.max(1, window.devicePixelRatio || 1);
   confettiCanvas.width = window.innerWidth * dpr;
   confettiCanvas.height = window.innerHeight * dpr;
 }
-
 resizeConfettiCanvas();
 window.addEventListener("resize", resizeConfettiCanvas);
 
-const confettiInstance = confetti.create(confettiCanvas, {
-  resize:false,
-  useWorker:true
-});
+const confettiInstance = confetti.create(confettiCanvas,{ resize:false,useWorker:true });
 
-function fullScreenConfetti() {
-  const end = Date.now() + 1600;
-
-  (function frame() {
+function fullScreenConfetti(){
+  const end = Date.now()+1600;
+  (function frame(){
     confettiInstance({
       particleCount:12,
       spread:90,
       startVelocity:45,
-      origin:{ x:Math.random(), y:Math.random()*0.3 }
+      origin:{x:Math.random(),y:Math.random()*0.3}
     });
-
-    if(Date.now() < end) requestAnimationFrame(frame);
+    if(Date.now()<end) requestAnimationFrame(frame);
   })();
 
   setTimeout(()=>{
@@ -189,13 +245,12 @@ function fullScreenConfetti() {
       particleCount:300,
       spread:140,
       startVelocity:60,
-      origin:{ x:0.5, y:0.55 }
+      origin:{x:0.5,y:0.55}
     });
   },300);
 }
 
-/* ---------- VALENTINE BUTTON LOGIC ---------- */
-
+/* Buttons */
 const zone = document.getElementById("zone");
 const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
@@ -204,80 +259,61 @@ const hint = document.getElementById("hint");
 
 let yesScale = 1;
 
-function growYes() {
-  yesScale = Math.min(2.2, yesScale + 0.1);
+function growYes(){
+  yesScale = Math.min(2.2, yesScale+0.1);
   yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
 }
 
-function clamp(n,min,max){
-  return Math.max(min, Math.min(max,n));
-}
+function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
 
 function moveNo(px,py){
   const z = zone.getBoundingClientRect();
   const b = noBtn.getBoundingClientRect();
 
-  let dx = (b.left + b.width/2) - px;
-  let dy = (b.top + b.height/2) - py;
-  let mag = Math.hypot(dx,dy) || 1;
+  let dx = (b.left+b.width/2)-px;
+  let dy = (b.top+b.height/2)-py;
+  let mag = Math.hypot(dx,dy)||1;
 
-  dx /= mag;
-  dy /= mag;
+  dx/=mag; dy/=mag;
 
-  let newLeft = (b.left - z.left) + dx*150;
-  let newTop  = (b.top - z.top) + dy*150;
+  let newLeft=(b.left-z.left)+dx*150;
+  let newTop=(b.top-z.top)+dy*150;
 
-  newLeft = clamp(newLeft,0,z.width - b.width);
-  newTop  = clamp(newTop,0,z.height - b.height);
+  newLeft=clamp(newLeft,0,z.width-b.width);
+  newTop=clamp(newTop,0,z.height-b.height);
 
-  noBtn.style.left = newLeft + "px";
-  noBtn.style.top = newTop + "px";
-  noBtn.style.transform = "none";
+  noBtn.style.left=newLeft+"px";
+  noBtn.style.top=newTop+"px";
+  noBtn.style.transform="none";
 
   growYes();
 }
 
 /* Desktop hover */
-zone.addEventListener("pointermove", e => {
-  const b = noBtn.getBoundingClientRect();
-
-  const d = Math.hypot(
-    (b.left + b.width/2) - e.clientX,
-    (b.top + b.height/2) - e.clientY
-  );
-
-  if(d < 140) moveNo(e.clientX, e.clientY);
+zone.addEventListener("pointermove",e=>{
+  const b=noBtn.getBoundingClientRect();
+  const d=Math.hypot((b.left+b.width/2)-e.clientX,(b.top+b.height/2)-e.clientY);
+  if(d<140) moveNo(e.clientX,e.clientY);
 });
 
 /* Mobile tap */
 function randomMove(){
-  const zoneRect = zone.getBoundingClientRect();
-
-  const randomX = zoneRect.left + Math.random() * zoneRect.width;
-  const randomY = zoneRect.top + Math.random() * zoneRect.height;
-
-  moveNo(randomX, randomY);
+  const rect=zone.getBoundingClientRect();
+  const x=rect.left+Math.random()*rect.width;
+  const y=rect.top+Math.random()*rect.height;
+  moveNo(x,y);
 }
 
-noBtn.addEventListener("click", e => {
-  e.preventDefault();
-  randomMove();
-});
+noBtn.onclick=e=>{ e.preventDefault(); randomMove(); };
+noBtn.ontouchstart=e=>{ e.preventDefault(); randomMove(); };
 
-noBtn.addEventListener("touchstart", e => {
-  e.preventDefault();
-  randomMove();
-},{ passive:false });
-
-/* YES CLICK */
-
-yesBtn.addEventListener("click", () => {
-  zone.style.display = "none";
-  hint.style.display = "none";
-  result.style.display = "block";
+/* YES click */
+yesBtn.onclick=()=>{
+  zone.style.display="none";
+  hint.style.display="none";
+  result.style.display="block";
   fullScreenConfetti();
-});
-
+};
 </script>
 
 </body>
