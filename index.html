@@ -2,233 +2,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Valentine</title>
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For You ❤️</title>
 
 <style>
-:root{
- --bg1:#ffd6e7;
- --bg2:#ffeef6;
- --card:#ffffffcc;
- --yes:#ff3b7a;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
+*{box-sizing:border-box}
+
 body{
- min-height:100vh;
- display:grid;
- place-items:center;
- font-family:system-ui,sans-serif;
- background:radial-gradient(circle at top,var(--bg2),var(--bg1));
- overflow:hidden;
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:linear-gradient(135deg,#ffd6e7,#ffeaf3);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+  text-align:center;
 }
 
-/* Floating hearts */
-body::before{
- content:"💗 💖 💕 💘 💝";
- position:fixed;
- inset:0;
- opacity:.12;
- font-size:40px;
- animation:float 12s linear infinite;
- pointer-events:none;
-}
-@keyframes float{
- from{transform:translateY(100vh);}
- to{transform:translateY(-120vh);}
+/* Pages */
+.page{
+  display:none;
+  width:100%;
+  max-width:420px;
 }
 
+.page.active{
+  display:block;
+}
+
+/* Card */
 .card{
- width:min(720px,92vw);
- padding:26px 22px;
- background:var(--card);
- backdrop-filter:blur(10px);
- border-radius:22px;
- text-align:center;
- box-shadow:0 18px 60px rgba(0,0,0,.15);
- margin:auto;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(14px);
+  padding:28px 22px;
+  border-radius:22px;
+  box-shadow:0 8px 28px rgba(0,0,0,.12);
+  margin:auto;
 }
 
+/* Text */
+h1{
+  margin-top:0;
+  font-size:1.6rem;
+}
+
+/* Images */
 .art{
- width:min(260px,80vw);
- display:block;
- margin:0 auto 12px auto;
+  width:min(260px,80vw);
+  display:block;
+  margin:auto;
+  margin-bottom:12px;
 }
 
 .fireworks{
- width:min(380px,90vw);
- display:block;
- margin:20px auto 0 auto;
+  width:min(380px,90vw);
+  display:block;
+  margin:18px auto 0 auto;
 }
 
-.heartbeat{
- animation:heartbeat 1.2s infinite;
- transform-origin:center;
-}
-@keyframes heartbeat{
- 0%,100%{transform:scale(1);}
- 50%{transform:scale(1.12);}
-}
-
-.button-zone{
- position:relative;
- width:min(520px,92%);
- height:150px;
- margin:auto;
-}
-
+/* Buttons */
 button{
- padding:16px 24px;
- font-size:18px;
- font-weight:800;
- border-radius:999px;
- border:none;
- cursor:pointer;
- box-shadow:0 10px 24px rgba(0,0,0,.14);
- transition:left .25s ease, top .25s ease, transform .15s ease;
+  border:none;
+  padding:14px 22px;
+  border-radius:999px;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:.2s ease;
 }
 
-#yesBtn{
- position:absolute; left:18%; top:50%; transform:translateY(-50%);
- background:var(--yes); color:white;
-}
-#noBtn{
- position:absolute; left:62%; top:50%; transform:translateY(-50%);
- background:#e5e7eb;
+.next{
+  margin-top:20px;
+  background:#ff4d6d;
+  color:white;
 }
 
-.result{display:none;}
-.hint{margin-top:10px;font-size:14px;opacity:.8;}
+.yes{
+  background:#28a745;
+  color:white;
+  position:absolute;
+  left:30%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+
+.no{
+  background:#dc3545;
+  color:white;
+  position:absolute;
+  left:70%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  transition:left .25s ease, top .25s ease;
+}
+
+/* Button zone */
+.btn-zone{
+  position:relative;
+  height:150px;
+  margin-top:30px;
+}
+
+.hint{
+  opacity:.7;
+  margin-top:10px;
+  font-size:13px;
+}
 </style>
 </head>
 
 <body>
 
-<canvas id="confettiCanvas"></canvas>
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="card">
 
-<audio id="bgMusic" loop>
- <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6f1cc0e94b.mp3" type="audio/mp3">
-</audio>
+    <h1>Happy 3 Month Anniversary ❤️</h1>
 
-<!-- Anniversary Page -->
-<section class="card" id="anniversaryPage">
-<img src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" style="width:min(280px,80vw); border-radius:18px;"/>
-<h1>Happy 3 Month Anniversary ❤️</h1>
-<p>Looks like what we have is real… and honestly, I’m really grateful for it.</p>
-<p style="margin-top:18px; font-size:20px;">Just one more thing 😉</p>
-<button id="nextBtn">Next →</button>
-</section>
+    <img class="art" src="https://media.tenor.com/N2mXqg0RzLkAAAAi/teddy-bear-heart.gif">
 
-<!-- Valentine Page -->
-<main class="card" id="valentinePage" style="display:none;">
-<svg class="art" viewBox="0 0 320 240">
-<defs>
- <linearGradient id="fur"><stop offset="0" stop-color="#f7c7a1"/><stop offset="1" stop-color="#f2a97b"/></linearGradient>
- <linearGradient id="heart"><stop offset="0" stop-color="#ff4d7d"/><stop offset="1" stop-color="#ff1f68"/></linearGradient>
-</defs>
+    <p>Looks like what we have is real.</p>
 
-<path class="heartbeat" d="M250 50 C250 33 270 25 282 38 C294 25 314 33 314 50 C314 78 282 92 282 106 C282 92 250 78 250 50Z" fill="url(#heart)"/>
-<path d="M90 120 C90 70 140 40 190 60 C240 40 290 70 290 120 C290 180 240 210 190 210 C140 210 90 180 90 120Z" fill="url(#fur)"/>
-<circle cx="160" cy="130" r="8"/>
-<circle cx="220" cy="130" r="8"/>
-</svg>
+    <p><strong>Just one more thing… 🫶</strong></p>
 
-<h1>Rawan El Moghrabi will you be my valentine?</h1>
+    <button class="next" onclick="showPage(2)">Next</button>
 
-<section class="button-zone" id="zone">
- <button id="yesBtn">Yes</button>
- <button id="noBtn">No</button>
-</section>
+  </div>
+</div>
 
-<div class="hint" id="hint">“No” exists only as a formality... </div>
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div class="card">
 
-<section class="result" id="result">
-<h2>YAY! 🎉</h2>
-<img class="fireworks" src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"/>
-</section>
-</main>
+    <h1>Rawan El Moghrabi, will you be my valentine? 💖</h1>
+
+    <img class="art" src="https://media.tenor.com/N2mXqg0RzLkAAAAi/teddy-bear-heart.gif">
+
+    <div class="btn-zone" id="zone">
+      <button class="yes" id="yesBtn">Yes 💘</button>
+      <button class="no" id="noBtn">No 🙈</button>
+    </div>
+
+    <p id="hint" class="hint">“No” exists as a formality... </p>
+
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="card">
+
+    <h1>YAY!!! 🎉</h1>
+
+    <img class="fireworks" src="https://media.tenor.com/Z6GMZyYjR8cAAAAi/fireworks.gif">
+
+    <p>Best decision ever 😌❤️</p>
+
+  </div>
+</div>
 
 <script>
-const anniversaryPage=document.getElementById("anniversaryPage");
-const valentinePage=document.getElementById("valentinePage");
-const nextBtn=document.getElementById("nextBtn");
-const music=document.getElementById("bgMusic");
 
-nextBtn.onclick=()=>{
- anniversaryPage.style.display="none";
- valentinePage.style.display="block";
- music.volume=0;
- music.play();
- let fade=setInterval(()=>{
-   if(music.volume<0.35) music.volume+=0.02; else clearInterval(fade);
- },120);
-};
-
-/* Confetti */
-const canvas=document.getElementById("confettiCanvas");
-const confettiInstance=confetti.create(canvas,{resize:true,useWorker:true});
-
-function fullConfetti(){
- confettiInstance({particleCount:250,spread:140,startVelocity:60});
+/* Page switching */
+function showPage(num){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("page"+num).classList.add("active");
 }
 
-/* Buttons */
-const zone=document.getElementById("zone");
-const yesBtn=document.getElementById("yesBtn");
-const noBtn=document.getElementById("noBtn");
-const result=document.getElementById("result");
-const hint=document.getElementById("hint");
+/* Valentine logic */
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const zone = document.getElementById("zone");
+const hint = document.getElementById("hint");
 
-let yesScale=1, noClicks=0;
-const teasing=["Are you sure? 😢","Really sure?? 🥺","I’ll be very sad... 😭","Okay but… last chance 😳"];
+let yesScale = 1;
 
-function growYes(){ yesScale=Math.min(2.2,yesScale+.1); yesBtn.style.transform=`translateY(-50%) scale(${yesScale})`; }
+function clamp(v,min,max){
+  return Math.max(min,Math.min(max,v));
+}
 
-function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+function growYes(){
+  yesScale += .08;
+  yesBtn.style.transform = `translate(-50%,-50%) scale(${yesScale})`;
+}
 
 function moveNo(px,py){
- const z=zone.getBoundingClientRect();
- const b=noBtn.getBoundingClientRect();
- let dx=(b.left+b.width/2)-px;
- let dy=(b.top+b.height/2)-py;
- let mag=Math.hypot(dx,dy)||1;
- dx/=mag; dy/=mag;
- let newLeft=(b.left-z.left)+dx*140;
- let newTop=(b.top-z.top)+dy*140;
- newLeft=clamp(newLeft,10,z.width-b.width-10);
- newTop=clamp(newTop,10,z.height-b.height-10);
- noBtn.style.left=newLeft+"px";
- noBtn.style.top=newTop+"px";
- noBtn.style.transform="translateY(-50%)";
- growYes();
- if(noClicks<teasing.length){ hint.textContent=teasing[noClicks]; }
- noClicks++;
+
+  const z = zone.getBoundingClientRect();
+  const b = noBtn.getBoundingClientRect();
+
+  let dx = (b.left + b.width/2) - px;
+  let dy = (b.top + b.height/2) - py;
+  let mag = Math.hypot(dx,dy) || 1;
+
+  dx /= mag;
+  dy /= mag;
+
+  let newLeft = (b.left - z.left) + dx * 140;
+  let newTop  = (b.top - z.top) + dy * 140;
+
+  newLeft = clamp(newLeft,10,z.width-b.width-10);
+  newTop  = clamp(newTop,10,z.height-b.height-10);
+
+  noBtn.style.left = newLeft + "px";
+  noBtn.style.top = newTop + "px";
+
+  growYes();
 }
 
-function randomMove(){
- const rect=zone.getBoundingClientRect();
- const margin=40;
- const x=rect.left+margin+Math.random()*(rect.width-margin*2);
- const y=rect.top+margin+Math.random()*(rect.height-margin*2);
- moveNo(x,y);
-}
-
+/* Desktop hover */
 zone.addEventListener("pointermove",e=>{
- const b=noBtn.getBoundingClientRect();
- const d=Math.hypot((b.left+b.width/2)-e.clientX,(b.top+b.height/2)-e.clientY);
- if(d<140) moveNo(e.clientX,e.clientY);
+  moveNo(e.clientX,e.clientY);
 });
 
-noBtn.onclick=e=>{e.preventDefault();randomMove();};
-noBtn.ontouchstart=e=>{e.preventDefault();randomMove();};
+/* Mobile tap */
+noBtn.addEventListener("click",e=>{
+  e.preventDefault();
 
-yesBtn.onclick=()=>{
- zone.style.display="none";
- hint.style.display="none";
- result.style.display="block";
- fullConfetti();
-};
+  const rect = zone.getBoundingClientRect();
+  const x = rect.left + Math.random()*rect.width;
+  const y = rect.top + Math.random()*rect.height;
+
+  moveNo(x,y);
+});
+
+/* YES button */
+yesBtn.addEventListener("click",()=>{
+  hint.style.display = "none";
+  showPage(3);
+});
+
 </script>
+
 </body>
 </html>
